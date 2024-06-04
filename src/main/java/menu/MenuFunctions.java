@@ -8,6 +8,7 @@ import service.CompanyService;
 import service.PersonService;
 import service.serviceImpl.CompanyServiceImpl;
 import service.serviceImpl.PersonServiceImpl;
+import validator.Validator;
 //import validator.Validator;
 
 import java.util.List;
@@ -167,7 +168,7 @@ public class MenuFunctions {
     private boolean getPersonId(String id) {
         boolean isAppropriateNumber = false;
         //   if (Validator.correctId(id)) {
-        if (!(Integer.parseInt(id) < 0) && !(Integer.parseInt(id) > getPeople().size())) {
+        if (!(Integer.parseInt(id) < 0) && !(Integer.parseInt(id) > getPeople().size()+1)) {
             isAppropriateNumber = true;
         }
         else {
@@ -229,19 +230,22 @@ public class MenuFunctions {
         return result;
     }
 
-    public String updateCompany() {
-        String result = null;
+    public void updateCompany() {
+        // String result = null;
         System.out.println("---Изменение компании---");
         showCompanies();
         System.out.print("Выберите ID компании для изменения: ");
         String id = in.nextLine();
         if (getCompanyId(id)) {
+         //не работаен найти компанию по id
+            Company company = findCompanyById(Integer.parseInt(id));
+
             System.out.print("Введите название компании: ");
             String name = in.nextLine();
             System.out.print("Введите страну происхождения компании: ");
             String country = in.nextLine();
             //     if (Validator.correctCompany(name, country)) {
-            Company company = companyService.findCompanyById(Integer.parseInt(id));
+            company = companyService.findCompanyById(Integer.parseInt(id));
             company.setCompanyName(name);
             company.setCompanyCountry(country);
             if (companyService.updateCompany(company)) {
@@ -252,9 +256,13 @@ public class MenuFunctions {
                 System.out.println("Данные не корректны!");
             }*/
         }
-
-        return result;
     }
+
+    private Company findCompanyById(int id) {
+Company company = companyService.findCompanyById(id);
+return company;
+    }
+
 
     public void deleteCompany() {
         System.out.println("---Удаление компании---");
@@ -268,10 +276,11 @@ public class MenuFunctions {
         }
     }
 
+    //сдесь косяк
     private boolean getCompanyId(String id) {
         boolean isAppropriateNumber = false;
-        //   if (Validator.correctId(id)) {
-        if (!(Integer.parseInt(id) < 0) && !(Integer.parseInt(id) > getCompanies().size())) {
+        // if (Validator.correctId(id)) {
+        if (!(Integer.parseInt(id) < 0) && !(Integer.parseInt(id) > getCompanies().size()+1)) {
             isAppropriateNumber = true;
         }
         else {
@@ -283,6 +292,7 @@ public class MenuFunctions {
         }*/
         return isAppropriateNumber;
     }
+
 
     public void showCompanies() {
         List<Company> companies = getCompanies();
@@ -309,8 +319,7 @@ public class MenuFunctions {
     }
 
     private List<Company> getCompanies() {
-        List<Company> companies = companyService.showCompanies();
-        return companies;
+        return companyService.showCompanies();
     }
 
     public void showOneCompany() {
@@ -339,6 +348,8 @@ public class MenuFunctions {
         }
         return company;
     }
+
+
 
     //---CAR---//
 
@@ -429,29 +440,28 @@ public class MenuFunctions {
                 String fuelConsumption = in.nextLine();
                 System.out.print("Введите цену: ");
                 String price = in.nextLine();
-              /*  if (Validator.correctCar(name, year, distance, fuel, fuelConsumption, price)) {
-                    if (Validator.correctFuel(fuel)) {*/
-                car.setName(name);
-                car.setYear(Integer.parseInt(year));
-                car.setDistance(Integer.parseInt(distance));
-                car.setFuel(fuel);
-                car.setFuelConsumption(fuelConsumption);
-                car.setPrice(Integer.parseInt(price));
-            }
-            else {
-                System.out.println("Введите топливо: Бензин или Дизель!");
-            }
-               /* }
-                else {
+
+                if (Validator.correctCar(name, year, distance, fuel, fuelConsumption, price)) {
+                    if (Validator.correctFuel(fuel)) {
+                        car.setName(name);
+                        car.setYear(Integer.parseInt(year));
+                        car.setDistance(Integer.parseInt(distance));
+                        car.setFuel(fuel);
+                        car.setFuelConsumption(fuelConsumption);
+                        car.setPrice(Integer.parseInt(price));
+
+                        if (companyService.updateCompany(company)) {
+                            System.out.println("---Изменение выполнено!---");
+                        }
+                    } else {
+                        System.out.println("Введите топливо: Бензин или Дизель!");
+                    }
+                } else {
                     System.out.println("Данные не корректны!");
                 }
-                if (companyService.updateCompany(company)) {
-                    System.out.println("---Изменение выполнено!---");
-                }*/
-            // }
+            }
         }
     }
-
     public void findCarByName() {
         System.out.print("Введите название машины: ");
         String name = in.nextLine();

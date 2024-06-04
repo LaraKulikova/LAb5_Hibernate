@@ -1,4 +1,4 @@
-package dao.daoImpl;
+package dao.daolmpl;
 
 import dao.PersonDao;
 import entity.Person;

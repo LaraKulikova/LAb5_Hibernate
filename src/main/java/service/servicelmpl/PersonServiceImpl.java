@@ -1,7 +1,7 @@
 package service.serviceImpl;
 
 import dao.PersonDao;
-import dao.daoImpl.PersonDaoImpl;
+import dao.daolmpl.PersonDaoImpl;
 import entity.Person;
 import exception.ShowException;
 import org.hibernate.HibernateError;

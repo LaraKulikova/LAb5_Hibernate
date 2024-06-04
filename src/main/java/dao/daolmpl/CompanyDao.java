@@ -14,5 +14,6 @@ public interface CompanyDao {
 
     List<Company> showCompanies();
     Company findCompanyById(int id);
-    Company findCompanyByName(MysqlxDatatypes.Scalar.String name);
+    //Эта запись указывает на то, что name
+    //является строковым значением (String) в базе данных MySQL.
 }
